@@ -3,4 +3,4 @@ This is the repository for our paper "Towards a Better Integration of Fuzzy Matc
 
 
 ## Citation
-See the [citation][CITATION] file for citing information. Please cite that paper rather than the respository itself.
+See the [citation](CITATION) file for citing information. Please cite that paper rather than the respository itself.
