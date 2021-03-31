@@ -1,0 +1,13 @@
+@article{tezcan2021integration,
+    AUTHOR = {Tezcan, Arda and Bulté, Bram and Vanroy, Bram},
+    TITLE = {Towards a Better Integration of Fuzzy Matches in Neural Machine Translation through Data Augmentation},
+    JOURNAL = {Informatics},
+    VOLUME = {8},
+    YEAR = {2021},
+    NUMBER = {1},
+    ARTICLE-NUMBER = {7},
+    URL = {https://www.mdpi.com/2227-9709/8/1/7},
+    ISSN = {2227-9709},
+    ABSTRACT = {We identify a number of aspects that can boost the performance of Neural Fuzzy Repair (NFR), an easy-to-implement method to integrate translation memory matches and neural machine translation (NMT). We explore various ways of maximising the added value of retrieved matches within the NFR paradigm for eight language combinations, using Transformer NMT systems. In particular, we test the impact of different fuzzy matching techniques, sub-word-level segmentation methods and alignment-based features on overall translation quality. Furthermore, we propose a fuzzy match combination technique that aims to maximise the coverage of source words. This is supplemented with an analysis of how translation quality is affected by input sentence length and fuzzy match score. The results show that applying a combination of the tested modifications leads to a significant increase in estimated translation quality over all baselines for all language combinations.},
+    DOI = {10.3390/informatics8010007}
+}
