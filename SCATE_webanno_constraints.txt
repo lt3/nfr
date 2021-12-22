@@ -1,0 +1,18 @@
+import webanno.custom.Fluency as Fluency;
+import webanno.custom.Accuracy as Accuracy;
+
+Fluency {
+/* Rule 1 */
+main = "Grammar & Syntax" -> FluencyGrammar = "Agreement" | FluencyGrammar = "Extra word" | FluencyGrammar = "Missing word" | FluencyGrammar = "Verb form" | FluencyGrammar = "Word order";
+/* Rule 2 */
+main = "Lexicon" -> FluencyLexicon = "Lexical choice" | FluencyLexicon = "Wrong preposition";
+/* Rule 3 */
+main = "Style & Register" -> StyleRegister = "Register" | StyleRegister = "Disfluent sentence/construction" | StyleRegister = "Repetition" | StyleRegister = "Untranslated";
+/* Rule 4 */
+main = "Coherence" -> Coherence = "Inconsistency" | Coherence = "Co-reference" | Coherence = "Cultural reference" | Coherence = "Discourse marker" | Coherence = "Logical problem" | Coherence = "Non-existing word" | Coherence = "Verb tense";
+}
+
+Accuracy {
+/* Rule 1 */
+Accuracymain = "Mistranslation" -> Accuracymistranslation = "MWE" | FAccuracymistranslation = "Other" | Accuracymistranslation = "POS" | Accuracymistranslation = "Partial" | Accuracymistranslation = "Semantically Unrelated" | Accuracymistranslation = "Word Sense";
+}
