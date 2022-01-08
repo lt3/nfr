@@ -210,7 +210,7 @@ optional arguments:
                         Features to retain in the fuzzy target tokens
 ```
 
-## Step-by-step guide 
+## Best Configuration: Step-by-step guide 
 The best configuration (for majoirty of the language pairs tested in Tezcan, Bulté & Vanroy; 2021) consists of the following parameters/properties: <br> 
 - Preprocessing: Tokenization, Truecasing and sub-word segmentation using Byte-Pair Encoding (BPE) with a merged vocabulary of 32K of the source and target languages (these preprocessing steps are performed before Step 1 below). We used [Moses Toolkit](https://www.statmt.org/moses/) for tokenization and truecasing and OpenNMT for BPE, which relies on [the original BPE implementation](https://github.com/rsennrich/subword-nmt). <br> 
 - Fuzzy matching using cosine similarity between segments using sent2vec (with a min. fuzzy match score of 0.5 and max. 40 fuzzy matches per source segment) <br> 
@@ -282,9 +282,51 @@ Some parameters to pay attention to during the "preprocessing" step in OpenNMT:
 
 Please see the paper for a list of all the paramater values we used in our experiments.
 
+## Minimal Configuration (Fast): Step-by-step guide
+The minimal configuration consists of the following parameters/properties: <br> 
+- Preprocessing: Tokenization, Truecasing and sub-word segmentation using Byte-Pair Encoding (BPE) with a merged vocabulary of 32K of the source and target languages (these preprocessing steps are performed before Step 1 below). We used [Moses Toolkit](https://www.statmt.org/moses/) for tokenization and truecasing and OpenNMT for BPE, which relies on [the original BPE implementation](https://github.com/rsennrich/subword-nmt). <br> 
+- Fuzzy matching using cosine similarity between segments by combining setsimsearch with edit distance (with a min. fuzzy match score of 0.5 and max. 40 fuzzy matches per source segment) <br> 
+- Only a single (best) fuzzy match is used for data augmentation  <br>
+- No fuzzy match combination method or token-level features are used <bd> 
+
+### Step 1. Extract Fuzzy Matches (preprocessed data)
+Fuzzy matches need to be extracted for the training, test and development sets **separately**. <br>
+
+To extract fuzzy matches (for the training set): <br>
+```
+nfr-extract-fuzzy-matches --tmsrc ./0_preprocessing/bpe_merged/train.tok.truec.bpe.en --tmtgt ./0_preprocessing/bpe_merged/train.tok.truec.bpe.nl --insrc ./0_preprocessing/bpe_merged/train.tok.truec.bpe.en --method setsimeditdist --maxmatch 40 --minscore 0.5 --threads 1
+```
+
+***Note 1:** This command generates the 'fuzzy match file' (train.tok.truec.bpe.en.matches.mins0.5.maxm40.setsimeditdist.txt) in the same folder as the original file (`--insrc`).* <br>
+***Note 2:** Modify `--insrc` parameter to extract fuzzy matches for the development or test sets separately.* <br>
+***Note 3:** To run the process on GPU, remove `--threads` parameter and use `--use_cuda` instead.*
+ 
+ 
 ## Citation
 
 Please cite [our paper(s)](CITATION) when you use this library.
+ 
+If you perform automatic or manual evaluations or analyse how similar translations influence the MT output:
+
+Tezcan, A., Bulté, B. (2022). Evaluating the Impact of Integrating Similar Translations into Neural Machine Translation. *Informatics*, 13(1). https://www.mdpi.com/2078-2489/13/1/19
+
+```
+@Article{info13010019,
+AUTHOR = {Tezcan, Arda and BultÃ©, Bram},
+TITLE = {Evaluating the Impact of Integrating Similar Translations into Neural Machine Translation},
+JOURNAL = {Information},
+VOLUME = {13},
+YEAR = {2022},
+NUMBER = {1},
+ARTICLE-NUMBER = {19},
+URL = {https://www.mdpi.com/2078-2489/13/1/19},
+ISSN = {2078-2489},
+ABSTRACT = {Previous research has shown that simple methods of augmenting machine translation training data and input sentences with translations of similar sentences (or fuzzy matches), retrieved from a translation memory or bilingual corpus, lead to considerable improvements in translation quality, as assessed by a limited set of automatic evaluation metrics. In this study, we extend this evaluation by calculating a wider range of automated quality metrics that tap into different aspects of translation quality and by performing manual MT error analysis. Moreover, we investigate in more detail how fuzzy matches influence translations and where potential quality improvements could still be made by carrying out a series of quantitative analyses that focus on different characteristics of the retrieved fuzzy matches. The automated evaluation shows that the quality of NFR translations is higher than the NMT baseline in terms of all metrics. However, the manual error analysis did not reveal a difference between the two systems in terms of total number of translation errors; yet, different profiles emerged when considering the types of errors made. Finally, in our analysis of how fuzzy matches influence NFR translations, we identified a number of features that could be used to improve the selection of fuzzy matches for NFR data augmentation.},
+DOI = {10.3390/info13010019}
+}
+```
+
+
 
 If you use semantic fuzzy matching (sent2vec, sentence-transformers), sub-word segmentation, max. coverage for combining fuzzy matches, source-side features for training NMT models:
 
