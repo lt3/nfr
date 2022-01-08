@@ -282,25 +282,6 @@ Some parameters to pay attention to during the "preprocessing" step in OpenNMT:
 
 Please see the paper for a list of all the paramater values we used in our experiments.
 
-## Minimal Configuration (Fast): Step-by-step guide
-The minimal configuration consists of the following parameters/properties: <br> 
-- Preprocessing: Tokenization, Truecasing and sub-word segmentation using Byte-Pair Encoding (BPE) with a merged vocabulary of 32K of the source and target languages (these preprocessing steps are performed before Step 1 below). We used [Moses Toolkit](https://www.statmt.org/moses/) for tokenization and truecasing and OpenNMT for BPE, which relies on [the original BPE implementation](https://github.com/rsennrich/subword-nmt). <br> 
-- Fuzzy matching using cosine similarity between segments by combining setsimsearch with edit distance (with a min. fuzzy match score of 0.5 and max. 40 fuzzy matches per source segment) <br> 
-- Only a single (best) fuzzy match is used for data augmentation  <br>
-- No fuzzy match combination method or token-level features are used <bd> 
-
-### Step 1. Extract Fuzzy Matches (preprocessed data)
-Fuzzy matches need to be extracted for the training, test and development sets **separately**. <br>
-
-To extract fuzzy matches (for the training set): <br>
-```
-nfr-extract-fuzzy-matches --tmsrc ./0_preprocessing/bpe_merged/train.tok.truec.bpe.en --tmtgt ./0_preprocessing/bpe_merged/train.tok.truec.bpe.nl --insrc ./0_preprocessing/bpe_merged/train.tok.truec.bpe.en --method setsimeditdist --maxmatch 40 --minscore 0.5 --threads 1
-```
-
-***Note 1:** This command generates the 'fuzzy match file' (train.tok.truec.bpe.en.matches.mins0.5.maxm40.setsimeditdist.txt) in the same folder as the original file (`--insrc`).* <br>
-***Note 2:** Modify `--insrc` parameter to extract fuzzy matches for the development or test sets separately.* <br>
-***Note 3:** To run the process on GPU, remove `--threads` parameter and use `--use_cuda` instead.*
- 
  
 ## Citation
 
