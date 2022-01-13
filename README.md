@@ -2,13 +2,7 @@
 
 
 ## Installation
-For basic usage you can simply install the library from pip
-
-```bash
-pip install nfr
-```
-
-... or clone from git and install.
+For basic usage you can simply install the library via clone from git and pip install.
 
 ```bash
 git clone https://github.com/lt3/nfr.git
