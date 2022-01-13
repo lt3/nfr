@@ -159,13 +159,19 @@ class DataAugmenter:
                 outfullsrc.write(self.add_src_features(s) + "\n")
                 outfulltgt.write(t + "\n")
 
-        self.close_fhs([outfullsrc, outfulltgt, outnomatch, *outmatch_ranges])
+        if outmatch_ranges is not None:
+            self.close_fhs([outfullsrc, outfulltgt, outnomatch, *outmatch_ranges])
+        else:
+            self.close_fhs([outfullsrc, outfulltgt, outnomatch])
 
     @staticmethod
     def close_fhs(fhs):
         """Close all file handles in a list"""
         for fh in fhs:
-            fh.close()
+            try:
+                fh.close()
+            except:
+                pass
 
     def add_src_features(self, line: str) -> str:
         """Add source (S) and/or no match (nm) features to a given source line if required. If a line already contains
